@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import './App.css'
 import Die from "./Die.jsx"
 import {nanoid} from "nanoid"
 import Confetti from "react-confetti"
@@ -9,6 +8,7 @@ export default function App() {
 
   const {width, height} = useWindowSize()
   const [dice, setDice] = useState( () => allNewDice())
+  const [rolling, setRolling] = useState(false);
 
     /**
      * Challenge part 2:
@@ -55,7 +55,7 @@ export default function App() {
   }
 
   function renderDice() {
-    const diceArr =  dice.map( (die) => <Die key={die.id} id={die.id} value={die.value} isHeld={die.isHeld} hold={hold}/>)
+    const diceArr =  dice.map( (die) => <Die key={die.id} id={die.id} value={die.value} isHeld={die.isHeld} hold={hold} rolling={rolling}/>)
     return diceArr
   }
 
@@ -64,6 +64,7 @@ export default function App() {
   }
 
   function reroll() {
+    setRolling(true)
 
     let newArr = []
 
@@ -78,6 +79,7 @@ export default function App() {
       }
     }
     setDice( () => newArr )
+    setTimeout(() => setRolling(false), 300);
   }
 
     /**

@@ -7,7 +7,7 @@ export default function Die(props) {
     }
 
     return (
-        <button style={styles} onClick={ () => {props.hold(props.id)}}>
+        <button className={`die ${props.isHeld ? "held" : ""} ${props.rolling && !props.isHeld ? "shake" : ""}`} style={styles} onClick={ () => {props.hold(props.id)}}>
             {props.value}
         </button>
     )
