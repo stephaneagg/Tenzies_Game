@@ -2,8 +2,8 @@
 
 export default function Die(props) {
     return (
-        <h1>
+        <button>
             {props.value}
-        </h1>
+        </button>
     )
 }
