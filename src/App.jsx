@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import './App.css'
 import Die from "./Die.jsx"
+import {nanoid} from "nanoid"
 
 export default function App() {
 
@@ -14,13 +15,17 @@ export default function App() {
   function allNewDice() {
     let arr = []
     for (let i=0; i<10; i++) {
-      arr[i] = Math.floor(Math.random() * 7) + 1
+      arr[i] = {
+        value: Math.floor(Math.random() * 7) + 1,
+        isHeld: false,
+        id: nanoid()
+      }
     }
     return arr
   }
 
   function renderDice() {
-    const diceArr =  dice.map( (die) => <Die value={die}/>)
+    const diceArr =  dice.map( (die) => <Die key={die.id} value={die.value}/>)
     return diceArr
   }
 
@@ -28,7 +33,7 @@ export default function App() {
     setDice( () => allNewDice() )
   }
 
-      /**
+    /**
      * Challenge: Update the array of numbers in state to be
      * an array of objects instead. Each object should look like:
      * { value: <random number>, isHeld: false }
@@ -36,6 +41,7 @@ export default function App() {
      * Making this change will break parts of our code, so make
      * sure to update things so we're back to a working state
      */
+    
 
   return (
     <main>
