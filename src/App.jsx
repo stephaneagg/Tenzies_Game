@@ -7,6 +7,10 @@ export default function App() {
 
   const [dice, setDice] = useState(allNewDice())
 
+  function randFace() {
+    return (Math.floor(Math.random() * 6) + 1)
+  }
+
   /**
    * Function takes no parameters
    * Returns and array of size 10
@@ -16,7 +20,7 @@ export default function App() {
     let arr = []
     for (let i=0; i<10; i++) {
       arr[i] = {
-        value: Math.floor(Math.random() * 7) + 1,
+        value: randFace(),
         isHeld: false,
         id: nanoid()
       }
@@ -30,7 +34,20 @@ export default function App() {
   }
 
   function reroll() {
-    setDice( () => allNewDice() )
+
+    let newArr = []
+
+    for (let i=0; i<dice.length; i++) {
+      if (dice[i].isHeld) {
+        newArr.push(dice[i])
+      } else {
+        newArr.push({
+          ...dice[i],
+          value: randFace()
+       })
+      }
+    }
+    setDice( () => newArr )
   }
 
     /**
