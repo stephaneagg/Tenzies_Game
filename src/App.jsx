@@ -2,10 +2,36 @@ import { useState } from 'react'
 import './App.css'
 import Die from "./Die.jsx"
 import {nanoid} from "nanoid"
+import Confetti from "react-confetti"
+import { useWindowSize } from "react-use"
 
 export default function App() {
 
-  const [dice, setDice] = useState(allNewDice())
+  const {width, height} = useWindowSize()
+  const [dice, setDice] = useState( () => allNewDice())
+
+    /**
+     * Challenge part 2:
+     * 1. Create a new `gameWon` variable.
+     * 2. If `gameWon` is true, change the button text to
+     *    "New Game" instead of "Roll"
+     */
+
+  const gameWon = checkGameWon()
+  if (gameWon) {
+    console.log("Game Won!")
+  }
+
+
+  function checkGameWon() {
+    let firstVal = dice[0].value 
+    for (let i = 0; i < dice.length; i++ ) {
+      if (!dice[i].isHeld || dice[i].value != firstVal)
+        return false;
+    }
+    return true
+  }
+
 
   function randFace() {
     return (Math.floor(Math.random() * 6) + 1)
@@ -31,6 +57,10 @@ export default function App() {
   function renderDice() {
     const diceArr =  dice.map( (die) => <Die key={die.id} id={die.id} value={die.value} isHeld={die.isHeld} hold={hold}/>)
     return diceArr
+  }
+
+  function handleRollDiceClick() {
+    gameWon ? setDice(allNewDice) : reroll()
   }
 
   function reroll() {
@@ -71,10 +101,25 @@ export default function App() {
 
   return (
     <main>
+      <h1>Tenzies</h1>
+
+      {gameWon ?
+      <div>
+        <h3>Congragulations</h3>
+        <Confetti
+        width={width}
+        height={height}
+        />
+      </div>
+      : null}
+
+      <p>Roll until all dice are the same. Click each die to freeze it at its current value between rolls</p>
       <div className='dice-container'>
         {renderDice()}
       </div>
-      <button className="roll-dice" onClick={reroll}>Roll</button>
+      <button className="roll-dice" onClick={handleRollDiceClick}>{gameWon ? "New Game" : "Roll"}</button>
+
+
     </main>
   )
 }
