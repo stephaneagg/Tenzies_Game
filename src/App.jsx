@@ -4,48 +4,45 @@ import Die from "./Die.jsx"
 
 export default function App() {
 
-const [dice, setDice] = useState(allNewDice())
+  const [dice, setDice] = useState(allNewDice())
 
-/**
- * Function takes no parameters
- * Returns and array of size 10
- * Each element is a random number between 1-6 inclusive
- */
-function allNewDice() {
-  let arr = []
-  for (let i=0; i<10; i++) {
-    arr[i] = Math.floor(Math.random() * 7) + 1
+  /**
+   * Function takes no parameters
+   * Returns and array of size 10
+   * Each element is a random number between 1-6 inclusive
+   */
+  function allNewDice() {
+    let arr = []
+    for (let i=0; i<10; i++) {
+      arr[i] = Math.floor(Math.random() * 7) + 1
+    }
+    return arr
   }
-  return arr
-}
 
+  function renderDice() {
+    const diceArr =  dice.map( (die) => <Die value={die}/>)
+    return diceArr
+  }
 
+  function reroll() {
+    setDice( () => allNewDice() )
+  }
 
-function renderDice() {
-  const diceArr =  dice.map( (die) => <button >{die}</button>)
-  return diceArr
-}
-
-
-/**
- * Challenge:
- * 
- * Create state to hold our array of numbers. (Initialize
- * the state by calling our `generateAllNewDice` function so it 
- * loads all new dice as soon as the app loads)
- * 
- * Map over the state numbers array to generate our array
- * of Die components and render those in place of our
- * manually-written 10 Die elements.
- */
-
-
+      /**
+     * Challenge: Update the array of numbers in state to be
+     * an array of objects instead. Each object should look like:
+     * { value: <random number>, isHeld: false }
+     * 
+     * Making this change will break parts of our code, so make
+     * sure to update things so we're back to a working state
+     */
 
   return (
     <main>
       <div className='dice-container'>
         {renderDice()}
-        </div>
+      </div>
+      <button className="roll-dice" onClick={reroll}>Roll</button>
     </main>
   )
 }

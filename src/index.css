@@ -11,16 +11,20 @@ body {
   background-color: #0B2434;
 }
 
+button {
+  cursor: pointer;
+}
+
 main {
   margin: 0;
   background-color: #F5F5F5;
   height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-evenly;
   align-items: center;
   padding: 20px;
-  font-family: Inter, sans-serif;
+  font-family: Karla, sans-serif;
 
 }
 
@@ -41,5 +45,15 @@ main {
   font-size: 1.75rem;
   font-weight: bold;
   cursor: pointer;
-  font-family: Inter, sans-serif;
+  font-family: Karla, sans-serif;
+}
+
+.roll-dice {
+  height: 36px;
+  width: 93px;
+  border: none;
+  border-radius: 6px;
+  background-color: #5035FF;
+  color: white;
+  font-size: 1.2rem;
 }
