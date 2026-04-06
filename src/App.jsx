@@ -25,7 +25,7 @@ export default function App() {
   }
 
   function renderDice() {
-    const diceArr =  dice.map( (die) => <Die key={die.id} value={die.value}/>)
+    const diceArr =  dice.map( (die) => <Die key={die.id} id={die.id} value={die.value} isHeld={die.isHeld} hold={hold}/>)
     return diceArr
   }
 
@@ -34,13 +34,22 @@ export default function App() {
   }
 
     /**
-     * Challenge: Update the array of numbers in state to be
-     * an array of objects instead. Each object should look like:
-     * { value: <random number>, isHeld: false }
-     * 
-     * Making this change will break parts of our code, so make
-     * sure to update things so we're back to a working state
+     * Function takes an id as a paramter representing the id of the dice being held
+     * sets dice to a new array where the speciefied dice is held
      */
+    function hold(id) {
+      let newArr = []
+
+      for (let i = 0; i<dice.length; i++) {
+        if (dice[i].id == id) {
+          newArr.push({
+            ...dice[i],
+            isHeld: !dice[i].isHeld
+          })
+        } else {newArr.push(dice[i])}
+      }
+      setDice(newArr)
+    }
     
 
   return (
