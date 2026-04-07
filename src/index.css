@@ -28,6 +28,18 @@ main {
 
 }
 
+.title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.game-stats {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .dice-container {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
