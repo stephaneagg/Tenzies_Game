@@ -88,6 +88,10 @@ export default function App() {
      * sets dice to a new array where the speciefied dice is held
      */
     function hold(id) {
+      if (gameWon) {
+        return
+      }
+
       let newArr = []
 
       for (let i = 0; i<dice.length; i++) {
