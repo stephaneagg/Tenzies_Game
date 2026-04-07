@@ -74,15 +74,19 @@ export default function App() {
   // If playing is not true set it to true
   function handleRollDiceClick() {
     if (gameWon) {
-      setDice(allNewDice);
-      setRolls(0);
-      return;
+      setDice(allNewDice)
+      setRolls(0)
+      return
     }
 
-    if (!playing) setPlaying(true);
+    if (!playing) {
+      setPlaying(true)
+      setRolls(0)
+      return
+    }
 
-    reroll();
-    setRolls(prev => prev + 1);
+    reroll()
+    setRolls(prev => prev + 1)
   }
 
   // Function handles rerolling the unheld dice
@@ -148,9 +152,12 @@ export default function App() {
 
   return (
     <main>
-      <h1>Tenzies</h1>
-      <p>Roll until all dice are the same. Click each die to freeze it at its current value between rolls</p>
+      <div className='title'>
+        <h1>Tenzies</h1>
+        <p>Roll until all dice are the same. Click each die to freeze it at its current value between rolls</p>
+      </div>
 
+    <div className='game-stats'>
       {gameWon ?
         <>
           <h2>Congragulations!</h2>
@@ -176,6 +183,7 @@ export default function App() {
         </>
       : null
       }
+    </div>
       
       {playing ? 
         <div className='dice-container'>
