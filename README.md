@@ -1,16 +1,34 @@
-# React + Vite
+# Tenzies React Game
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A simple dice game built in React where the goal of the game is to roll dice until all 10 show the same face value. Players can "Hold" dice between rolls to strategically reach the goal in the fewest rolls and shortest time. 
 
-Currently, two official plugins are available:
+## Features
+- Roll dice until all values match
+- Hold/unhold dice between rolls
+- Roll counter
+- Stopwatch timer
+- Best time tracking
+- Best roll count tracking
+- Confetti animation on win
+- Dice roll animation
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Tech Stack
+- React (Vite)
+- JavaScript (ES6+)
+- CSS
+- npm packages:
+    - nanoid (unique IDs)
+    - react-confetti (win animation)
+    - react-timer-hook (stopwatch)
+    - react-use (window size hook)
 
-## React Compiler
+## How to Play
+1. Click Roll to roll the dice
+2. Click a die to hold its value
+3. Continue rolling until all die match
+4. Try to win with the fewest rolls and fastest time
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Acknowledgements
+- Inspired by common React learning projects
+- Thanks to open-source libraries used in this project
