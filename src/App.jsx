@@ -1,27 +1,18 @@
 import { useState } from 'react'
+import { useWindowSize } from "react-use"
 import Die from "./Die.jsx"
 import {nanoid} from "nanoid"
 import Confetti from "react-confetti"
-import { useWindowSize } from "react-use"
 
 export default function App() {
 
   const {width, height} = useWindowSize()
   const [dice, setDice] = useState( () => allNewDice())
   const [rolling, setRolling] = useState(false);
+  const [playing, setPlaying] = useState(false);
 
-    /**
-     * Challenge part 2:
-     * 1. Create a new `gameWon` variable.
-     * 2. If `gameWon` is true, change the button text to
-     *    "New Game" instead of "Roll"
-     */
-
+  // At every re-render check if game has been won
   const gameWon = checkGameWon()
-  if (gameWon) {
-    console.log("Game Won!")
-  }
-
 
   function checkGameWon() {
     let firstVal = dice[0].value 
@@ -32,7 +23,7 @@ export default function App() {
     return true
   }
 
-
+  // Function returns a random number between 1 and 6 inclusive
   function randFace() {
     return (Math.floor(Math.random() * 6) + 1)
   }
@@ -54,15 +45,21 @@ export default function App() {
     return arr
   }
 
+  // Function takes the dice array and maps a new array of die components
   function renderDice() {
     const diceArr =  dice.map( (die) => <Die key={die.id} id={die.id} value={die.value} isHeld={die.isHeld} hold={hold} rolling={rolling}/>)
     return diceArr
   }
 
+  // Handles clicking the roll/new game button. 
+  // If the game has been won a new game is starting with fresh dice else call reroll
+  // If playing is not true set it to true
   function handleRollDiceClick() {
     gameWon ? setDice(allNewDice) : reroll()
+    !playing ? setPlaying(true) : null
   }
 
+  // Function handles rerolling the unheld dice
   function reroll() {
     setRolling(true)
 
@@ -106,20 +103,24 @@ export default function App() {
       <h1>Tenzies</h1>
 
       {gameWon ?
-      <div>
-        <h3>Congragulations</h3>
-        <Confetti
-        width={width}
-        height={height}
-        />
-      </div>
+        <div>
+          <h3>Congragulations</h3>
+          <Confetti
+          width={width}
+          height={height}
+          />
+        </div>
       : null}
 
       <p>Roll until all dice are the same. Click each die to freeze it at its current value between rolls</p>
-      <div className='dice-container'>
-        {renderDice()}
-      </div>
-      <button className="roll-dice" onClick={handleRollDiceClick}>{gameWon ? "New Game" : "Roll"}</button>
+      
+      {playing ? 
+        <div className='dice-container'>
+          {renderDice()}
+        </div>
+      : null
+      }
+      <button className="roll-dice" onClick={handleRollDiceClick}>{gameWon || !playing ? "New Game" : "Roll"}</button>
 
 
     </main>
