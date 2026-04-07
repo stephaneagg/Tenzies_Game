@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useWindowSize } from "react-use"
 import Die from "./Die.jsx"
+import Timer from "./Timer.jsx"
 import {nanoid} from "nanoid"
 import Confetti from "react-confetti"
 
@@ -10,6 +11,8 @@ export default function App() {
   const [dice, setDice] = useState( () => allNewDice())
   const [rolling, setRolling] = useState(false);
   const [playing, setPlaying] = useState(false);
+  const [time, setTime] = useState({minutes: 0, seconds: 0})
+  const [bestTime, setBestTime] = useState({minutes: 0, seconds:0})
 
   // At every re-render check if game has been won
   const gameWon = checkGameWon()
@@ -25,7 +28,8 @@ export default function App() {
 
   // Function returns a random number between 1 and 6 inclusive
   function randFace() {
-    return (Math.floor(Math.random() * 6) + 1)
+    //return (Math.floor(Math.random() * 6) + 1)
+    return 1
   }
 
   /**
@@ -96,6 +100,24 @@ export default function App() {
       }
       setDice(newArr)
     }
+
+  function regTime(minutes, seconds) {
+    setTime({minutes: minutes, seconds: seconds})
+    setBestTime(prev => {
+      if (prev.minutes === 0 && prev.seconds === 0) {
+        return { minutes, seconds };
+      }
+
+      const prevTotal = prev.minutes * 60 + prev.seconds;
+      const newTotal = minutes * 60 + seconds;
+
+      if (newTotal < prevTotal) {
+        return { minutes, seconds };
+      }
+
+      return prev;
+    });
+  }
     
 
   return (
@@ -103,14 +125,24 @@ export default function App() {
       <h1>Tenzies</h1>
 
       {gameWon ?
-        <div>
-          <h3>Congragulations</h3>
+        <>
+          <h2>Congragulations!</h2>
+          <p>You made Tenzies in: {time.minutes}:{time.seconds}</p>
           <Confetti
           width={width}
           height={height}
           />
-        </div>
+        </>
       : null}
+
+      {bestTime.minutes !== 0 || bestTime.seconds !== 0 ? 
+        <p>Your best time is: {bestTime.minutes}:{bestTime.seconds}</p> 
+      : null}
+
+      {playing ? 
+      <Timer gameWon={gameWon} regTime={regTime}/>
+      : null
+      }
 
       <p>Roll until all dice are the same. Click each die to freeze it at its current value between rolls</p>
       
