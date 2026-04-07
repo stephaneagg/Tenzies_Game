@@ -42,8 +42,8 @@ export default function App() {
 
   // Function returns a random number between 1 and 6 inclusive
   function randFace() {
-    //return (Math.floor(Math.random() * 6) + 1)
-    return 1
+    return (Math.floor(Math.random() * 6) + 1)
+    //return 1
   }
 
   /**
