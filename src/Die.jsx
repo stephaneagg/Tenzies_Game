@@ -12,7 +12,7 @@ export default function Die(props) {
         style={styles} 
         onClick={() => !props.gameWon && props.hold(props.id)}
         >
-            {props.value}
+            <img src={props.face}></img>
         </button>
     )
 }

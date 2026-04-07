@@ -65,7 +65,7 @@ export default function App() {
 
   // Function takes the dice array and maps a new array of die components
   function renderDice() {
-    const diceArr =  dice.map( (die) => <Die key={die.id} id={die.id} value={die.value} isHeld={die.isHeld} hold={hold} rolling={rolling}/>)
+    const diceArr =  dice.map( (die) => <Die key={die.id} id={die.id} face={`/resources/${die.value}.png`} isHeld={die.isHeld} hold={hold} rolling={rolling}/>)
     return diceArr
   }
 

@@ -42,10 +42,15 @@ main {
   border-radius: 10px;
   border: none;
   background-color: white;
-  font-size: 1.75rem;
-  font-weight: bold;
-  cursor: pointer;
-  font-family: Karla, sans-serif;
+  box-shadow: 0px, 2px, 2px, rgba(0, 0, 0, 0.15);
+  padding: 0;
+}
+
+.dice-container button img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  border-radius: 10px;
 }
 
 .roll-dice {
