@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useEffect } from 'react'
 import { useWindowSize } from "react-use"
 import Die from "./Die.jsx"
 import Timer from "./Timer.jsx"
@@ -11,11 +12,24 @@ export default function App() {
   const [dice, setDice] = useState( () => allNewDice())
   const [rolling, setRolling] = useState(false);
   const [playing, setPlaying] = useState(false);
+
   const [time, setTime] = useState({minutes: 0, seconds: 0})
   const [bestTime, setBestTime] = useState({minutes: 0, seconds:0})
+  const [rolls, setRolls] = useState(0)
+  const [bestRolls, setBestRolls] = useState(0) 
 
   // At every re-render check if game has been won
   const gameWon = checkGameWon()
+
+
+  useEffect(() => {
+    if (gameWon) {
+      setBestRolls(prev => {
+        if (prev === 0) return rolls;
+        return rolls < prev ? rolls : prev;
+      });
+    }
+  }, [gameWon]);
 
   function checkGameWon() {
     let firstVal = dice[0].value 
@@ -59,8 +73,16 @@ export default function App() {
   // If the game has been won a new game is starting with fresh dice else call reroll
   // If playing is not true set it to true
   function handleRollDiceClick() {
-    gameWon ? setDice(allNewDice) : reroll()
-    !playing ? setPlaying(true) : null
+    if (gameWon) {
+      setDice(allNewDice);
+      setRolls(0);
+      return;
+    }
+
+    if (!playing) setPlaying(true);
+
+    reroll();
+    setRolls(prev => prev + 1);
   }
 
   // Function handles rerolling the unheld dice
@@ -127,6 +149,7 @@ export default function App() {
   return (
     <main>
       <h1>Tenzies</h1>
+      <p>Roll until all dice are the same. Click each die to freeze it at its current value between rolls</p>
 
       {gameWon ?
         <>
@@ -140,15 +163,19 @@ export default function App() {
       : null}
 
       {bestTime.minutes !== 0 || bestTime.seconds !== 0 ? 
-        <p>Your best time is: {bestTime.minutes}:{bestTime.seconds}</p> 
+        <>
+          <p>Your best time is: {bestTime.minutes}:{bestTime.seconds}</p>
+          <p>Your lowest roll game was: {bestRolls}</p>
+        </>
       : null}
 
       {playing ? 
-      <Timer gameWon={gameWon} regTime={regTime}/>
+        <>
+          <Timer gameWon={gameWon} regTime={regTime}/>
+          <h2>Rolls: {rolls}</h2>
+        </>
       : null
       }
-
-      <p>Roll until all dice are the same. Click each die to freeze it at its current value between rolls</p>
       
       {playing ? 
         <div className='dice-container'>
